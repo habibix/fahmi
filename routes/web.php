@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+/*Route::get('/map', function () {
+    Route::resource('/club', 'ClubController', ['names' => 'admin.club']);
+});*/
+
+Route::resource('/map', 'MapController');
