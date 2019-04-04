@@ -20,3 +20,5 @@ Route::get('/', function () {
 });*/
 
 Route::resource('/map', 'MapController');
+
+Route::resource('input', 'InputController');
