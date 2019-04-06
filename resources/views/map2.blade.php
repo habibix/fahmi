@@ -3,7 +3,7 @@
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <title>Polygon Arrays</title>
+    <title>Rectangles</title>
     <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -17,72 +17,36 @@
         padding: 0;
       }
     </style>
-  </head>
-  <body>
-    <div id="map"></div>
     <script>
 
-      // This example creates a simple polygon representing the Bermuda Triangle.
-      // When the user clicks on the polygon an info window opens, showing
-      // information about the polygon's coordinates.
-
-      var map;
-      var infoWindow;
+      // This example adds a red rectangle to a map.
 
       function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 5,
-          center: {lat: 24.886, lng: -70.268},
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 20,
+          center: {lat: -6.8585, lng: 107.42},
           mapTypeId: 'terrain'
         });
 
-        // Define the LatLng coordinates for the polygon.
-        var triangleCoords = [
-            {lat: 18.466, lng: -66.118},
-            {lat: 32.321, lng: -64.757}
-        ];
-
-        // Construct the polygon.
-        var bermudaTriangle = new google.maps.Polygon({
-          paths: triangleCoords,
+        var rectangle = new google.maps.Rectangle({
           strokeColor: '#FF0000',
           strokeOpacity: 0.8,
-          strokeWeight: 3,
+          strokeWeight: 2,
           fillColor: '#FF0000',
-          fillOpacity: 0.35
+          fillOpacity: 0.05,
+          map: map,
+          bounds: {
+            north: -6.836,
+            south: -6.881,
+            east: 107.443,
+            west: 107.397
+          }
         });
-        bermudaTriangle.setMap(map);
-
-        // Add a listener for the click event.
-        bermudaTriangle.addListener('click', showArrays);
-
-        infoWindow = new google.maps.InfoWindow;
-      }
-
-      /** @this {google.maps.Polygon} */
-      function showArrays(event) {
-        // Since this polygon has only one path, we can call getPath() to return the
-        // MVCArray of LatLngs.
-        var vertices = this.getPath();
-
-        var contentString = '<b>Bermuda Triangle polygon</b><br>' +
-            'Clicked location: <br>' + event.latLng.lat() + ',' + event.latLng.lng() +
-            '<br>';
-
-        // Iterate over the vertices.
-        for (var i =0; i < vertices.getLength(); i++) {
-          var xy = vertices.getAt(i);
-          contentString += '<br>' + 'Coordinate ' + i + ':<br>' + xy.lat() + ',' +
-              xy.lng();
-        }
-
-        // Replace the info window's content and position.
-        infoWindow.setContent(contentString);
-        infoWindow.setPosition(event.latLng);
-
-        infoWindow.open(map);
       }
     </script>
+  </head>
+  <body>
+    <div id="map"></div>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZGCoJLniH-3xUOaBlX2aKrkG6KNeRecM&callback=initMap">
     </script>

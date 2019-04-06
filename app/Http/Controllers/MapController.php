@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Mapper;
+use App\Input;
 //use Cornford\Googlmapper\Facades\MapperFacade;
 
 class MapController extends Controller
@@ -38,7 +39,14 @@ class MapController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            'judul' => 'required',
+            'isi' => 'required',
+            'kategori' => 'required'
+        ]);
+
+        Merpati::create($request->all());    
+        return redirect()->route('merpati.index')->with('success', "Hooray, things are awesome!");
     }
 
     /**

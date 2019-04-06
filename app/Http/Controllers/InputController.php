@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Input;
 use Illuminate\Http\Request;
+use App\Input;
+
 
 class InputController extends Controller
 {
@@ -35,7 +36,23 @@ class InputController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            'nama' => 'required',
+            'npm' => 'required',
+            'judul' => 'required',
+            'lokasi' => 'required',
+            'kecamatan' => 'required',
+            'kabupaten' => 'required',
+            'provinsi' => 'required',
+            'keperluan' => 'required',
+            'north' => 'required',
+            'south' => 'required',
+            'east' => 'required',
+            'west' => 'required'
+        ]);
+
+        Input::create($request->all());    
+        return redirect()->route('input.index')->with('success', "Hooray, things are awesome!");
     }
 
     /**

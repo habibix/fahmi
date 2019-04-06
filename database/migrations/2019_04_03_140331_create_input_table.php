@@ -23,7 +23,10 @@ class CreateInputTable extends Migration
             $table->string('kabupaten');
             $table->string('provinsi');
             $table->string('keperluan');
-            $table->string('koordinat');
+            $table->string('north');
+            $table->string('south');
+            $table->string('east');
+            $table->string('west');
             $table->timestamps();
         });
     }

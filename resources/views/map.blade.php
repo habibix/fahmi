@@ -18,10 +18,27 @@
     <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
+
+       @media (min-width: 992px)
+.col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+    float: none !important;
+}
       #map {
-        height: 500px;
+        height: 700px;
         width: 100%;
+        background: #eee;
       }
+
+      .map-button {
+        margin-top: 10px;
+        padding: 20px;
+        cursor: default;
+        background: #000;
+        color: #fff;
+        width: 150px;
+        text-align: center;
+      }
+
        Optional: Makes the sample page fill the window. 
       html, body {
         height: 100%;
@@ -45,9 +62,9 @@
       	console.log(clng);
 
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 15,
-          center: {lat: 33.678, lng: -116.243},
-          //center: {lat: clat, lng: clng},
+          zoom: 14,
+          //center: {lat: 33.678, lng: -116.243},
+          center: {lat: clat, lng: clng},
           mapTypeId: 'terrain'
         });
 
@@ -59,24 +76,24 @@
           fillOpacity: 0.1,
           map: map,
           bounds: {
-          	north: 33.685,
+          	/*north: 33.685,
             south: 33.671,
             east: -116.234,
-            west: -116.251
-            /*north: n,
+            west: -116.251*/
+            north: n,
             south: s,
             east: e,
-            west: w*/
+            west: w
           }
         });
       }
     </script>
   </head>
   <body>
-
-  	<div class="col-md-8">
+    <div class="container">
+  	<div class="col-md-8 center-block">
             <div class="card">
-                <div class="card-header">Dashboard - Merpati</div>
+                <div class="card-header">Petrografi</div>
 
                 <div class="card-body">
                     
@@ -128,17 +145,21 @@
                             <input class="form-control koordinat" required="required" placeholder="South" name="south" type="text">
                             <input class="form-control koordinat" required="required" placeholder="East" name="east" type="text">
                             <input class="form-control koordinat" required="required" placeholder="West" name="west" type="text">
-                            <button class="form-control" onclick="initMap()">CLICK</button>
+                            <div class="map-button pull-right" onclick="initMap()">View Map</div>
                         </div>
-                        <div class="col-md-8">
-                            map disini
-                            <div id="map"></div>
+                        <div class="form-group">
+                          <div id="map"></div>
+                        </div>
+
+                        <div class="form-group">
+                          <input class="form-control btn btn-primary" type="submit" name="submit" value="SAVE">
                         </div>
                     </form>
 
                 </div>
             </div>
         </div>
+      </div>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZGCoJLniH-3xUOaBlX2aKrkG6KNeRecM">
     </script>
