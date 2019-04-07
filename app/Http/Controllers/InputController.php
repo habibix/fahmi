@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Input;
-
+use App\Wilayah;
 
 class InputController extends Controller
 {
@@ -15,7 +15,11 @@ class InputController extends Controller
      */
     public function index()
     {
-        return view('input');
+
+        $provs = Wilayah::whereRaw('LENGTH(kode) = 2')->get();
+        //print_r($prov);
+        //return view('input');
+        return view('input')->with('provs', $provs);
     }
 
     /**

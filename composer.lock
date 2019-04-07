@@ -4,68 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b7f8f0a5bd3a17222da3c6b9a27fed8f",
+    "content-hash": "4144b18a73d1a387725de5a4f298d643",
     "packages": [
-        {
-            "name": "cornford/googlmapper",
-            "version": "v2.33.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bradcornford/Googlmapper.git",
-                "reference": "06428532c50d86cc3807c4c6e9fa042f2cd278b8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bradcornford/Googlmapper/zipball/06428532c50d86cc3807c4c6e9fa042f2cd278b8",
-                "reference": "06428532c50d86cc3807c4c6e9fa042f2cd278b8",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "5.*",
-                "illuminate/view": "5.*",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "0.9.1",
-                "phpspec/phpspec": "2.0.*@dev"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Cornford\\Googlmapper\\MapperServiceProvider"
-                    ],
-                    "aliases": {
-                        "Mapper": "Cornford\\Googlmapper\\Facades\\MapperFacade"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Cornford\\Googlmapper": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Bradley Cornford",
-                    "email": "me@bradleycornford.co.uk"
-                }
-            ],
-            "description": "An easy way to integrate Google Maps with Laravel.",
-            "keywords": [
-                "google",
-                "laravel",
-                "map",
-                "mapping",
-                "maps",
-                "streetview"
-            ],
-            "time": "2018-09-06T08:49:31+00:00"
-        },
         {
             "name": "dnoegel/php-xdg-base-dir",
             "version": "0.1",
@@ -322,56 +262,6 @@
                 "parser"
             ],
             "time": "2019-03-17T18:48:37+00:00"
-        },
-        {
-            "name": "farhanwazir/laravelgooglemaps",
-            "version": "2.3.9",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/farhanwazir/laravelgooglemaps.git",
-                "reference": "8451e3b0de386e3b779c142692b71645ea75357e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/farhanwazir/laravelgooglemaps/zipball/8451e3b0de386e3b779c142692b71645ea75357e",
-                "reference": "8451e3b0de386e3b779c142692b71645ea75357e",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/framework": "5.*",
-                "php": ">=5.6.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.5.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "FarhanWazir\\GoogleMaps\\": "src/FarhanWazir/GoogleMaps/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Farhan Wazir",
-                    "email": "seejee1@gmail.com",
-                    "role": "Author"
-                }
-            ],
-            "description": "Laravel Google Map package for 5.x. You can use all google map features in laravel.",
-            "keywords": [
-                "gmap",
-                "google",
-                "googlemap",
-                "laravel",
-                "map"
-            ],
-            "time": "2018-03-30T21:00:53+00:00"
         },
         {
             "name": "fideloper/proxy",
@@ -4345,16 +4235,16 @@
         },
         {
             "name": "theseer/tokenizer",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theseer/tokenizer.git",
-                "reference": "06b6ce404ee574e9c1787fb67bb9980ca4387c34"
+                "reference": "1c42705be2b6c1de5904f8afacef5895cab44bf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/06b6ce404ee574e9c1787fb67bb9980ca4387c34",
-                "reference": "06b6ce404ee574e9c1787fb67bb9980ca4387c34",
+                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/1c42705be2b6c1de5904f8afacef5895cab44bf8",
+                "reference": "1c42705be2b6c1de5904f8afacef5895cab44bf8",
                 "shasum": ""
             },
             "require": {
@@ -4381,7 +4271,7 @@
                 }
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
-            "time": "2019-04-03T18:37:40+00:00"
+            "time": "2019-04-04T09:56:43+00:00"
         },
         {
             "name": "webmozart/assert",

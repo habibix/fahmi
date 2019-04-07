@@ -123,12 +123,15 @@
                             <input class="form-control" required="required" placeholder="Lokasi" name="lokasi" type="text">
                         </div>
                         <div class="form-group">
-                          <label for="sel1">Kecamatan</label>
-                          <select name="kecamatan" class="form-control" id="sel1">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
+                          <label for="sel1">Provinsi</label>
+                          <select name="provinsi" class="form-control" id="sel1">
+                            <option value=""> -- Select Provinsi -- </option>
+                            @foreach ($provs as $prov)
+                                <option value="{{ $prov->nama }}">{{ $prov->nama }}</option>
+                            @endforeach
                           </select>
                         </div>
+                        
                         <div class="form-group">
                           <label for="sel1">Kabupaten</label>
                           <select name="kabupaten" class="form-control" id="sel1">
@@ -136,13 +139,15 @@
                             <option value="2">2</option>
                           </select>
                         </div>
+
                         <div class="form-group">
-                          <label for="sel1">Provinsi</label>
-                          <select name="provinsi" class="form-control" id="sel1">
+                          <label for="sel1">Kecamatan</label>
+                          <select name="kecamatan" class="form-control" id="sel1">
                             <option value="1">1</option>
                             <option value="2">2</option>
                           </select>
                         </div>
+                        
                         <div class="form-group">
                           <label for="sel1">Keperluan</label>
                           <select name="keperluan" class="form-control" id="sel1">
