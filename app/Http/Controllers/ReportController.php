@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Mapper;
 use App\Input;
-//use Cornford\Googlmapper\Facades\MapperFacade;
+use App\Wilayah;
 
-class MapController extends Controller
+class ReportController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +15,8 @@ class MapController extends Controller
      */
     public function index()
     {
-        
-
-        return view('map');
+        $datas = Input::all();
+        return view('report')->with('datas', $datas);
     }
 
     /**
@@ -39,14 +37,7 @@ class MapController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate([
-            'judul' => 'required',
-            'isi' => 'required',
-            'kategori' => 'required'
-        ]);
-
-        Merpati::create($request->all());    
-        return redirect()->route('merpati.index')->with('success', "Hooray, things are awesome!");
+        //
     }
 
     /**
@@ -93,4 +84,21 @@ class MapController extends Controller
     {
         //
     }
+
+    public function reportView($id)
+    {
+        $wilayah = new Wilayah();
+        $data = Input::findOrFail($id);
+        
+        $prov = $wilayah->wilayah($data->provinsi);
+        $kab = $wilayah->wilayah($data->kabupaten);
+        $kec = $wilayah->wilayah($data->kecamatan);
+        return view('report-view')
+            ->with('data', $data)
+            ->with('kab', $kab)
+            ->with('kec', $kec)
+            ->with('prov', $prov);
+        //return view('report-view', compact($datas, $lokasi));
+    }
+
 }

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Input;
 use App\Wilayah;
 
+use DB;
+
 class InputController extends Controller
 {
     /**
@@ -102,5 +104,51 @@ class InputController extends Controller
     public function destroy(Input $input)
     {
         //
+    }
+
+    public function selectKab(Request $request)
+    {
+
+        //$states = Wilayah::all();
+        //$states = Wilayah::select(DB::raw('LEFT("kode", 2)=11 AND LENGTH(kode) = 5 ORDER BY nama'))->get();
+        /*$states = Wilayah::where('kode', 'like', '11%')
+        ->whereRaw('LENGTH(kode) = 5')
+        ->get();
+        
+        $data = view('ajax-select',compact('states'))->render();
+        return response()->json(['options'=>$data]);*/
+        
+        if($request->ajax()){
+            $states = Wilayah::where('kode', 'like', $request->id_kab.'%')
+            ->whereRaw('LENGTH(kode) = 5')
+            ->orderBy('nama')
+            ->get();
+
+            $data = view('ajax-select-kab',compact('states'))->render();
+            return response()->json(['options'=>$data]);
+        }
+    }
+
+    public function selectKec(Request $request)
+    {
+
+        //$states = Wilayah::all();
+        //$states = Wilayah::select(DB::raw('LEFT("kode", 2)=11 AND LENGTH(kode) = 5 ORDER BY nama'))->get();
+        /*$states = Wilayah::where('kode', 'like', '11%')
+        ->whereRaw('LENGTH(kode) = 5')
+        ->get();
+        
+        $data = view('ajax-select',compact('states'))->render();
+        return response()->json(['options'=>$data]);*/
+        
+        if($request->ajax()){
+            $states = Wilayah::where('kode', 'like', $request->id_kec.'%')
+            ->whereRaw('LENGTH(kode) = 8')
+            ->orderBy('nama')
+            ->get();
+
+            $data = view('ajax-select-kec',compact('states'))->render();
+            return response()->json(['options'=>$data]);
+        }
     }
 }

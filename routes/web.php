@@ -44,3 +44,12 @@ Route::get('/map2', function () {
 });
 
 Route::resource('input', 'InputController');
+Route::resource('report', 'ReportController');
+Route::get('data/{id}', 'ReportController@reportView');
+/*Route::get('data/{id}', function () {
+    return 'Hello World';
+});*/
+//Route::get('report/{id}', 'ReportController@reportView');
+
+Route::post('select-kab', 'InputController@selectKab')->name('select-kab');
+Route::post('select-kec', 'InputController@selectKec')->name('select-kec');

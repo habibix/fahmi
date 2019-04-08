@@ -36,10 +36,10 @@
           fillOpacity: 0.05,
           map: map,
           bounds: {
-            north: -6.836,
-            south: -6.881,
-            east: 107.443,
-            west: 107.397
+            north: -6.836, //LINTANG A
+            south: -6.881, //LINTANG B
+            east: 107.443, //BUJUR A
+            west: 107.397 //BUJUR B
           }
         });
       }

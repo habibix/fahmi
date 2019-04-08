@@ -15,6 +15,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -93,7 +94,7 @@
     <div class="container">
     <div class="col-md-8 center-block">
             <div class="card">
-                <div class="card-header">Petrografi</div>
+                <div class="card-header">INPUT DATA</div>
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -104,11 +105,12 @@
                     </div>
                 @endif
                 @if (Session::has('success'))
-                    <small class="text-success">{{ Session::get('success') }}</small>
+                    <div class="text-success">{{ Session::get('success') }}</div>
                 @endif
                 <div class="card-body">
                     
                     <form method="POST" action="{{ route('input.store') }}" >
+                      
                         <input name="_token" type="hidden" value="{{ csrf_token() }}">
                         <div class="form-group">
                             <input class="form-control" required="required" placeholder="Nama" name="nama" type="text">
@@ -127,7 +129,7 @@
                           <select name="provinsi" class="form-control" id="sel1">
                             <option value=""> -- Select Provinsi -- </option>
                             @foreach ($provs as $prov)
-                                <option value="{{ $prov->nama }}">{{ $prov->nama }}</option>
+                                <option value="{{ $prov->kode }}">{{ $prov->nama }}</option>
                             @endforeach
                           </select>
                         </div>
@@ -135,16 +137,15 @@
                         <div class="form-group">
                           <label for="sel1">Kabupaten</label>
                           <select name="kabupaten" class="form-control" id="sel1">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
+                            <option value=""> -- Select Kabupaten -- </option>
+                            
                           </select>
                         </div>
 
                         <div class="form-group">
                           <label for="sel1">Kecamatan</label>
                           <select name="kecamatan" class="form-control" id="sel1">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
+                            <option value=""> -- Select Kecamatan -- </option>
                           </select>
                         </div>
                         
@@ -157,12 +158,31 @@
                         </div>
                         <div class="form-group">
                             <label for="sel1">Koordinat Daerah Penelitian</label>
-                            <input class="form-control koordinat" required="required" placeholder="North" name="north" type="text">
-                            <input class="form-control koordinat" required="required" placeholder="South" name="south" type="text">
-                            <input class="form-control koordinat" required="required" placeholder="East" name="east" type="text">
-                            <input class="form-control koordinat" required="required" placeholder="West" name="west" type="text">
-                            <div class="map-button pull-right" onclick="initMap()">View Map</div>
                         </div>
+
+                          <div class="form-group row">
+                            <div class="col-xs-6">
+                              <input name="north" type="text" class="form-control koordinat" placeholder="Lintang / Latitude / North">
+                            </div>
+
+                            <div class="col-xs-6">
+                              <input name="east" type="text" class="form-control koordinat" placeholder="Bujur / Longitude / East">
+                            </div>
+                          </div>
+                        
+                        <div class="form-group row">
+                            <div class="col-xs-6">
+                              <input name="south" type="text" class="form-control koordinat" placeholder="Lintang / Latitude / South">
+                            </div>
+                            <div class="col-xs-6">
+                              <input name="west" type="text" class="form-control koordinat" placeholder="Bujur / Longitude / West">
+                            </div>
+                          </div>
+
+                        <div class="form-group">
+                          <div class="form-control btn btn-success" onclick="initMap()">View Map</div>
+                        </div>
+
                         <div class="form-group">
                           <div id="map"></div>
                         </div>
@@ -170,6 +190,7 @@
                         <div class="form-group">
                           <input class="form-control btn btn-primary" type="submit" name="submit" value="SAVE">
                         </div>
+                      
                     </form>
 
                 </div>
@@ -178,6 +199,37 @@
       </div>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZGCoJLniH-3xUOaBlX2aKrkG6KNeRecM">
+    </script>
+    <script type="text/javascript">
+      $("select[name='provinsi']").change(function(){
+          var id_kab = $(this).val();
+          var token = $("input[name='_token']").val();
+          $.ajax({
+              url: "<?php echo route('select-kab') ?>",
+              method: 'POST',
+              data: {id_kab:id_kab, _token:token},
+              success: function(data) {
+                $("select[name='kabupaten'").html('');
+                $("select[name='kabupaten'").html(data.options);
+              }
+          });
+      });
+    </script>
+
+    <script type="text/javascript">
+      $("select[name='kabupaten']").change(function(){
+          var id_kec = $(this).val();
+          var token = $("input[name='_token']").val();
+          $.ajax({
+              url: "<?php echo route('select-kec') ?>",
+              method: 'POST',
+              data: {id_kec:id_kec, _token:token},
+              success: function(data) {
+                $("select[name='kecamatan'").html('');
+                $("select[name='kecamatan'").html(data.options);
+              }
+          });
+      });
     </script>
   </body>
 </html>
