@@ -16,6 +16,37 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+          var counter = 2;
+          $("#addButton").click(function() {
+              if (counter > 10) {
+                  alert("Only 10 textboxes allow");
+                  return false;
+              }
+              
+              var newTextBoxDiv = $(document.createElement('div'))
+                  .attr("id", 'isi-singkapan' + counter);
+              
+              newTextBoxDiv.after().html('<div id="input-grup" class="form-group row"> <div class="col-xs-4"> <input name="kode_singkapan[]" type="text" class="form-control" placeholder="Kode Singkapan"> </div><div class="col-xs-4"> <input name="nama_batuan[]" type="text" class="form-control" placeholder="Nama Batuan"> </div><div class="col-xs-4"> <input name="jenis_batuan[]" type="text" class="form-control" placeholder="Jenis Batuan"> </div></div><div class="form-group row"> <div class="col-xs-4"> <input name="longitude[]" type="text" class="form-control" placeholder="Longitude"> </div><div class="col-xs-4"> <input name="latitude[]" type="text" class="form-control" placeholder="Latitude"> </div><div class="col-xs-4"> <input name="elevasi[]" type="text" class="form-control" placeholder="Elevasi"> </div></div><div class="form-group row"> <div class="col-xs-4"> <input name="attach[]" type="file" class="form-control"> </div><div class="col-xs-8"> <input class="btn btn-success col-xs-12" type="button" value="View Map" id="viewMap"> </div></div>'
+                  );
+              
+              newTextBoxDiv.appendTo("#singkapan");
+              counter++;
+          });
+
+          $("#removeButton").click(function() {
+              if (counter == 1) {
+                  alert("No more textbox to remove");
+                  return false;
+              }
+              counter--;
+
+              $("#TextBoxDiv" + counter).remove();
+
+          });
+      });
+    </script>
     <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -109,20 +140,20 @@
                 @endif
                 <div class="card-body">
                     
-                    <form method="POST" action="{{ route('input.store') }}" >
+                    <form method="POST" action="{{ route('input.store') }}" enctype="multipart/form-data" >
                       
                         <input name="_token" type="hidden" value="{{ csrf_token() }}">
                         <div class="form-group">
-                            <input class="form-control" required="required" placeholder="Nama" name="nama" type="text">
+                            <input class="form-control" placeholder="Nama" name="nama" type="text" value="{{ old('nama') }}">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" required="required" placeholder="NPM" name="npm" type="text">
+                            <input class="form-control" placeholder="NPM" name="npm" type="text" value="{{ old('npm') }}">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" required="required" placeholder="Judul" name="judul" type="text">
+                            <input class="form-control" placeholder="Judul" name="judul" type="text" value="{{ old('judul') }}">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" required="required" placeholder="Lokasi" name="lokasi" type="text">
+                            <input class="form-control" placeholder="Lokasi" name="lokasi" type="text" value="{{ old('lokasi') }}">
                         </div>
                         <div class="form-group">
                           <label for="sel1">Provinsi</label>
@@ -162,20 +193,20 @@
 
                           <div class="form-group row">
                             <div class="col-xs-6">
-                              <input name="north" type="text" class="form-control koordinat" placeholder="Lintang / Latitude / North">
+                              <input name="north" type="text" class="form-control koordinat" placeholder="Lintang / Latitude / North" value="{{ old('north') }}">
                             </div>
 
                             <div class="col-xs-6">
-                              <input name="east" type="text" class="form-control koordinat" placeholder="Bujur / Longitude / East">
+                              <input name="east" type="text" class="form-control koordinat" placeholder="Bujur / Longitude / East" value="{{ old('east') }}">
                             </div>
                           </div>
                         
                         <div class="form-group row">
                             <div class="col-xs-6">
-                              <input name="south" type="text" class="form-control koordinat" placeholder="Lintang / Latitude / South">
+                              <input name="south" type="text" class="form-control koordinat" placeholder="Lintang / Latitude / South" value="{{ old('south') }}">
                             </div>
                             <div class="col-xs-6">
-                              <input name="west" type="text" class="form-control koordinat" placeholder="Bujur / Longitude / West">
+                              <input name="west" type="text" class="form-control koordinat" placeholder="Bujur / Longitude / West" value="{{ old('west') }}">
                             </div>
                           </div>
 
@@ -185,6 +216,55 @@
 
                         <div class="form-group">
                           <div id="map"></div>
+                        </div>
+
+<div id="singkapan">
+  <div id="isi-singkapan">
+                        <div id="input-grup" class="form-group row">
+                          <div class="col-xs-4">
+                              <input name="kode_singkapan[]" type="text" class="form-control" placeholder="Kode Singkapan">
+                          </div>
+                          <div class="col-xs-4">
+                            <input name="nama_batuan[]" type="text" class="form-control" placeholder="Nama Batuan">
+                          </div>
+                          <div class="col-xs-4">
+                              <input name="jenis_batuan[]" type="text" class="form-control" placeholder="Jenis Batuan">
+                          </div>
+                          
+                          
+                        </div>
+
+                        <div class="form-group row">
+                          <div class="col-xs-4">
+                            <input name="longitude[]" type="text" class="form-control" placeholder="Longitude">
+                          </div>
+                          <div class="col-xs-4">
+                            <input name="latitude[]" type="text" class="form-control" placeholder="Latitude">
+                          </div>
+                          <div class="col-xs-4">
+                            <input name="elevasi[]" type="text" class="form-control" placeholder="Elevasi">
+                          </div>
+                          
+                        </div>
+
+                        <div class="form-group row">
+                            
+                          <div class="col-xs-4">
+                            <input name="attach[]" type="file" class="form-control">
+                          </div>
+                          <div class="col-xs-8">
+                            <input class="btn btn-success col-xs-12" type="button" value="View Map" id="viewMap">
+                          </div>
+                        </div>
+  </div>
+</div>
+                        <div class="form-group row">
+                          <div class="col-xs-6">
+                            <input class="btn btn-success col-xs-12" type="button" value='Add Data' id='addButton'>
+                          </div>
+                          <div class="col-xs-6">
+                            <input class="btn btn-danger col-xs-12" type="button" value="Remove Data" id='removeButton'>
+                          </div>
                         </div>
 
                         <div class="form-group">
