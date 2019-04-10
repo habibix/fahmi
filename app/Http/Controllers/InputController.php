@@ -81,8 +81,33 @@ class InputController extends Controller
         ]
         );
 
-        $data   = $request->all();
+        $count_kec = Input::select('kecamatan')->where('kecamatan', 'like', $request->kecamatan.'%');
+        $count_kec = $count_kec->count();
+
+        $data = array(
+            'nama'             => $request->nama,
+            'npm'              => $request->npm,
+            'judul'            => $request->judul,
+            'lokasi'           => $request->lokasi,
+            'kecamatan'        => $request->kecamatan.'-'.$count_kec,
+            'kabupaten'        => $request->kabupaten,
+            'provinsi'         => $request->provinsi,
+            'keperluan'        => $request->keperluan,
+            'north'            => $request->north,
+            'south'            => $request->south,
+            'east'             => $request->east,
+            'west'             => $request->west,
+        );
+
+        //$data   = $request->all();
         $lastid = Input::create($data)->id;
+
+        /*$kec_kode = $data->kecamatan;
+        $last_kec = Input::select('kecamatan')->where('kecamatan', 'like', $kec_kode.'%');
+        $count_kec = $last_kec->count();
+        echo $count_kec;
+*/
+        
 
         $files = $request->file('attach');
         $path  = public_path('/uploads/');
@@ -105,7 +130,7 @@ class InputController extends Controller
                 'singkapan_attach'       => $v->getClientOriginalName(),
             );
 
-            Singkapan::create($data2);
+            //Singkapan::create($data2);
 
             //Storage::putFileAs($path, $v, $v->getClientOriginalName().$item);
 
