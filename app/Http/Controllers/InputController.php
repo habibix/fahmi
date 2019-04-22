@@ -82,14 +82,15 @@ class InputController extends Controller
         );
 
         $count_kec = Input::select('kecamatan')->where('kecamatan', 'like', $request->kecamatan.'%');
-        $count_kec = $count_kec->count();
+        $count_kec = $count_kec->count()+1;
+        $kec_total = $request->kecamatan.'-0'.$count_kec;
 
         $data = array(
             'nama'             => $request->nama,
             'npm'              => $request->npm,
             'judul'            => $request->judul,
             'lokasi'           => $request->lokasi,
-            'kecamatan'        => $request->kecamatan.'-'.$count_kec,
+            'kecamatan'        => $kec_total,
             'kabupaten'        => $request->kabupaten,
             'provinsi'         => $request->provinsi,
             'keperluan'        => $request->keperluan,
@@ -119,6 +120,8 @@ class InputController extends Controller
         foreach ($files as $item => $v) {
             //$filename = $file
 
+            $nama_batuan = $request->nama_batuan[$item];
+
             $data2 = array(
                 'input_id'               => $lastid,
                 'singkapan_kode'         => $request->kode_singkapan[$item],
@@ -136,7 +139,9 @@ class InputController extends Controller
 
             $file = time().$v->getClientOriginalName();
             $path = base_path() . '/public/uploads/';
-            $v->move($path, $item.'-NAME.'.$v->getClientOriginalExtension());
+            $v->move($path, 
+                $kec_total.' Petrografi '.$request->nama_batuan[$item].'.'.$v->getClientOriginalExtension()
+            );
         }
         //return redirect()->back()->with('success','data insert successfully');
         return redirect()->route('input.index')->with('success', "Insert Success");

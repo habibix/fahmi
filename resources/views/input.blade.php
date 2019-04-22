@@ -15,7 +15,10 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.googlemap/1.5.1/jquery.googlemap.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyDZGCoJLniH-3xUOaBlX2aKrkG6KNeRecM"></script>
     <script type="text/javascript">
       $(document).ready(function() {
           var counter = 2;
@@ -24,13 +27,13 @@
                   alert("Only 10 textboxes allow");
                   return false;
               }
-              
+
               var newTextBoxDiv = $(document.createElement('div'))
-                  .attr("id", 'isi-singkapan' + counter);
-              
-              newTextBoxDiv.after().html('<div id="input-grup" class="form-group row"> <div class="col-xs-4"> <input name="kode_singkapan[]" type="text" class="form-control" placeholder="Kode Singkapan"> </div><div class="col-xs-4"> <input name="nama_batuan[]" type="text" class="form-control" placeholder="Nama Batuan"> </div><div class="col-xs-4"> <input name="jenis_batuan[]" type="text" class="form-control" placeholder="Jenis Batuan"> </div></div><div class="form-group row"> <div class="col-xs-4"> <input name="longitude[]" type="text" class="form-control" placeholder="Longitude"> </div><div class="col-xs-4"> <input name="latitude[]" type="text" class="form-control" placeholder="Latitude"> </div><div class="col-xs-4"> <input name="elevasi[]" type="text" class="form-control" placeholder="Elevasi"> </div></div><div class="form-group row"> <div class="col-xs-4"> <input name="attach[]" type="file" class="form-control"> </div><div class="col-xs-8"> <input class="btn btn-success col-xs-12" type="button" value="View Map" id="viewMap"> </div></div>'
+                  .attr("id", "isi-singkapan-" + counter);
+
+              newTextBoxDiv.after().html('<div id="input-grup" class="form-group row"> <div class="col-xs-4"> <input name="kode_singkapan[]" type="text" class="form-control" placeholder="Kode Singkapan"> </div><div class="col-xs-4"> <input name="nama_batuan[]" type="text" class="form-control" placeholder="Nama Batuan"> </div><div class="col-xs-4"> <input name="jenis_batuan[]" type="text" class="form-control" placeholder="Jenis Batuan"> </div></div><div class="form-group row lng"> <div class="col-xs-4"> <input id="longitude-'+counter+'" name="longitude[]" type="text" class="form-control" placeholder="Longitude"> </div><div class="col-xs-4"> <input id="latitude-'+counter+'" name="latitude[]" type="text" class="form-control" placeholder="Latitude"> </div><div class="col-xs-4"> <input name="elevasi[]" type="text" class="form-control" placeholder="Elevasi"> </div></div><div class="form-group row"> <div class="col-xs-4"> <input name="attach[]" type="file" class="form-control"> </div><div class="col-xs-8"> <input class="btn btn-success col-xs-12" type="button" value="View Map" id="viewMap" idx="'+counter+'"> </div></div><div class="form-group row"> <div id="map-'+counter+'" style="width: 100%"></div></div>'
                   );
-              
+
               newTextBoxDiv.appendTo("#singkapan");
               counter++;
           });
@@ -42,7 +45,7 @@
               }
               counter--;
 
-              $("#TextBoxDiv" + counter).remove();
+              $("#isi-singkapan" + counter).remove();
 
           });
       });
@@ -71,7 +74,7 @@
         text-align: center;
       }
 
-       Optional: Makes the sample page fill the window. 
+       Optional: Makes the sample page fill the window.
       html, body {
         height: 100%;
         margin: 0;
@@ -120,6 +123,8 @@
         });
       }
     </script>
+    
+
   </head>
   <body>
     <div class="container">
@@ -139,9 +144,9 @@
                     <div class="text-success">{{ Session::get('success') }}</div>
                 @endif
                 <div class="card-body">
-                    
+
                     <form method="POST" action="{{ route('input.store') }}" enctype="multipart/form-data" >
-                      
+
                         <input name="_token" type="hidden" value="{{ csrf_token() }}">
                         <div class="form-group">
                             <input class="form-control" placeholder="Nama" name="nama" type="text" value="{{ old('nama') }}">
@@ -164,12 +169,12 @@
                             @endforeach
                           </select>
                         </div>
-                        
+
                         <div class="form-group">
                           <label for="sel1">Kabupaten</label>
                           <select name="kabupaten" class="form-control" id="sel1">
                             <option value=""> -- Select Kabupaten -- </option>
-                            
+
                           </select>
                         </div>
 
@@ -179,7 +184,7 @@
                             <option value=""> -- Select Kecamatan -- </option>
                           </select>
                         </div>
-                        
+
                         <div class="form-group">
                           <label for="sel1">Keperluan</label>
                           <select name="keperluan" class="form-control" id="sel1">
@@ -200,7 +205,7 @@
                               <input name="east" type="text" class="form-control koordinat" placeholder="Bujur / Longitude / East" value="{{ old('east') }}">
                             </div>
                           </div>
-                        
+
                         <div class="form-group row">
                             <div class="col-xs-6">
                               <input name="south" type="text" class="form-control koordinat" placeholder="Lintang / Latitude / South" value="{{ old('south') }}">
@@ -218,8 +223,16 @@
                           <div id="map"></div>
                         </div>
 
+                        <div class="form-group row">
+                          <div class="col-xs-6">
+                            <i id="addButton" style="cursor: pointer; position:absolute; top:0px; right: -450px" class="fa fa-plus-circle fa-5x text-success"></i>
+                            <i id="removeButton" style="cursor: pointer; position:absolute; top:70px; right: -450px" class="fa fa-minus-circle fa-5x text-danger"></i>
+
+                          </div>
+                        </div>
+
 <div id="singkapan">
-  <div id="isi-singkapan">
+  <div id="isi-singkapan-1">
                         <div id="input-grup" class="form-group row">
                           <div class="col-xs-4">
                               <input name="kode_singkapan[]" type="text" class="form-control" placeholder="Kode Singkapan">
@@ -230,56 +243,99 @@
                           <div class="col-xs-4">
                               <input name="jenis_batuan[]" type="text" class="form-control" placeholder="Jenis Batuan">
                           </div>
-                          
-                          
                         </div>
 
-                        <div class="form-group row">
+                        <div class="form-group row lng">
                           <div class="col-xs-4">
-                            <input name="longitude[]" type="text" class="form-control" placeholder="Longitude">
+                            <input id="longitude-1" name="longitude[]" type="text" class="form-control" placeholder="Longitude">
                           </div>
                           <div class="col-xs-4">
-                            <input name="latitude[]" type="text" class="form-control" placeholder="Latitude">
+                            <input id="latitude-1" name="latitude[]" type="text" class="form-control" placeholder="Latitude">
                           </div>
                           <div class="col-xs-4">
                             <input name="elevasi[]" type="text" class="form-control" placeholder="Elevasi">
                           </div>
-                          
-                        </div>
 
+                        </div>
                         <div class="form-group row">
-                            
+
                           <div class="col-xs-4">
                             <input name="attach[]" type="file" class="form-control">
                           </div>
                           <div class="col-xs-8">
-                            <input class="btn btn-success col-xs-12" type="button" value="View Map" id="viewMap">
-                          </div>
-                        </div>
-  </div>
-</div>
-                        <div class="form-group row">
-                          <div class="col-xs-6">
-                            <input class="btn btn-success col-xs-12" type="button" value='Add Data' id='addButton'>
-                          </div>
-                          <div class="col-xs-6">
-                            <input class="btn btn-danger col-xs-12" type="button" value="Remove Data" id='removeButton'>
+                            <input class="btn btn-success col-xs-12" type="button" value="View Map" id="viewMap" idx="1">
                           </div>
                         </div>
 
+                        <div class="form-group row">
+                          <div id="map-1" style="width: 100%"></div>
+                        </div>
+  </div>
+</div>
                         <div class="form-group">
                           <input class="form-control btn btn-primary" type="submit" name="submit" value="SAVE">
                         </div>
-                      
+
                     </form>
 
                 </div>
             </div>
         </div>
       </div>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZGCoJLniH-3xUOaBlX2aKrkG6KNeRecM">
-    </script>
+
+<!-- <script>
+
+  $(document).ready(function() {
+    $( "#viewMap" ).click(function() {
+  // `this` is the DOM element that was clicked
+  var index = $( "input" ).index( this );
+  //$( "span" ).text( "That was div index #" + index );
+  console.log(index);
+});
+  });
+</script> -->
+<!-- <script>
+      function mapSingkapan() {
+        var myLatLng = {lat: -25.363, lng: 131.044};
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: myLatLng
+        });
+
+        var marker = new google.maps.Marker({
+          position: myLatLng,
+          map: map,
+          label : 'mapp'
+        });
+      }
+    </script> -->
+<script>
+// STATIC-PARENT              on  EVENT    DYNAMIC-CHILD
+$('#singkapan').on('click', '#viewMap', function() {
+
+
+
+  //var lng = $(this).find('#longitude');
+  var v = $(this).attr("idx");
+  var vlng = $("#longitude-"+v).val();
+  var vlat = $("#latitude-"+v).val();
+  //alert(v);
+
+  /*$("#isi-singkapan-"+v).append('<div class="form-group"><input class="form-control btn btn-primary" type="submit" name="submit" value="SAVE"></div>');*/
+  console.log( vlng + vlat );
+
+  $('#map-'+v).height(400);
+  $("#map-"+v).googleMap();
+    $("#map-"+v).addMarker({
+      coords: [vlng, vlat], // GPS coords
+      title : 'TITLE',
+      label : 'Label',
+      type : 'TERRAIN'
+    });
+});
+</script>
+    
     <script type="text/javascript">
       $("select[name='provinsi']").change(function(){
           var id_kab = $(this).val();

@@ -89,10 +89,12 @@ class ReportController extends Controller
     {
         $wilayah = new Wilayah();
         $data = Input::findOrFail($id);
+
+        $id_kec = explode('-', $data->kabupaten);
         
         $prov = $wilayah->wilayah($data->provinsi);
         $kab = $wilayah->wilayah($data->kabupaten);
-        $kec = $wilayah->wilayah($data->kecamatan);
+        $kec = $wilayah->wilayah($id_kec);
         return view('report-view')
             ->with('data', $data)
             ->with('kab', $kab)
