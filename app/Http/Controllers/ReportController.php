@@ -16,11 +16,8 @@ class ReportController extends Controller
      */
     public function index()
     {
-        //$datas = Input::all();
-        //return view('report')->with('datas', $datas);
-
-        $singkapan = Singkapan::all();
-        echo $singkapan->input->id;
+        $datas = Input::all();
+        return view('report')->with('datas', $datas);
     }
 
     /**
