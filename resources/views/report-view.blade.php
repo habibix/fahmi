@@ -120,7 +120,7 @@
                                         <td>{{ $sing->singkapan_lng }}</td>
                                         <td>{{ $sing->singkapan_lat }}</td>
                                         <td>{{ $sing->singkapan_elevasi }}</td>
-                                        <td>{{ $sing->singkapan_attach }}</td>
+                                        <td><a href="/uploads/{{ $sing->singkapan_attach }}">Download {{ $sing->singkapan_attach }}</a></td>
                                         
                                     </tr>
                                     <tr>

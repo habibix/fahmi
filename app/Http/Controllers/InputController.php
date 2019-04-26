@@ -121,6 +121,7 @@ class InputController extends Controller
             //$filename = $file
 
             $nama_batuan = $request->nama_batuan[$item];
+            $nama_attach = $kec_total.' Petrografi '.$request->nama_batuan[$item].'.'.$v->getClientOriginalExtension();
 
             $data2 = array(
                 'input_id'               => $lastid,
@@ -130,7 +131,7 @@ class InputController extends Controller
                 'singkapan_lng'          => $request->longitude[$item],
                 'singkapan_lat'          => $request->latitude[$item],
                 'singkapan_elevasi'      => $request->elevasi[$item],
-                'singkapan_attach'       => $v->getClientOriginalName(),
+                'singkapan_attach'       => $nama_attach
             );
 
             Singkapan::create($data2);
@@ -139,9 +140,7 @@ class InputController extends Controller
 
             $file = time().$v->getClientOriginalName();
             $path = base_path() . '/public/uploads/';
-            $v->move($path, 
-                $kec_total.' Petrografi '.$request->nama_batuan[$item].'.'.$v->getClientOriginalExtension()
-            );
+            $v->move($path, $nama_attach);
         }
         //return redirect()->back()->with('success','data insert successfully');
         return redirect()->route('input.index')->with('success', "Insert Success");
