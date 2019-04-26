@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Input;
 use App\Wilayah;
+use App\Singkapan;
 
 class ReportController extends Controller
 {
@@ -15,8 +16,11 @@ class ReportController extends Controller
      */
     public function index()
     {
-        $datas = Input::all();
-        return view('report')->with('datas', $datas);
+        //$datas = Input::all();
+        //return view('report')->with('datas', $datas);
+
+        $singkapan = Singkapan::all();
+        echo $singkapan->input->id;
     }
 
     /**
@@ -87,6 +91,7 @@ class ReportController extends Controller
 
     public function reportView($id)
     {
+        $singkapan = Singkapan::where('input_id', $id)->get();
         $wilayah = new Wilayah();
         $data = Input::findOrFail($id);
 
@@ -96,6 +101,7 @@ class ReportController extends Controller
         $kab = $wilayah->wilayah($data->kabupaten);
         $kec = $wilayah->wilayah($id_kec);
         return view('report-view')
+            ->with('singkapan', $singkapan)
             ->with('data', $data)
             ->with('kab', $kab)
             ->with('kec', $kec)

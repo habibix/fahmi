@@ -314,8 +314,6 @@
 // STATIC-PARENT              on  EVENT    DYNAMIC-CHILD
 $('#singkapan').on('click', '#viewMap', function() {
 
-
-
   //var lng = $(this).find('#longitude');
   var v = $(this).attr("idx");
   var vlng = $("#longitude-"+v).val();

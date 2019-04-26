@@ -14,4 +14,8 @@ class Singkapan extends Model
     protected $fillable = [
         'input_id', 'singkapan_kode', 'singkapan_nama_batuan', 'singkapan_jenis_batuan', 'singkapan_lat', 'singkapan_lng', 'singkapan_elevasi', 'singkapan_attach'
     ];
+
+    public function input(){
+        return $this->belongsTo('App\Input');
+    }
 }

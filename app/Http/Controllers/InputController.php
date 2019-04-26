@@ -133,7 +133,7 @@ class InputController extends Controller
                 'singkapan_attach'       => $v->getClientOriginalName(),
             );
 
-            //Singkapan::create($data2);
+            Singkapan::create($data2);
 
             //Storage::putFileAs($path, $v, $v->getClientOriginalName().$item);
 
