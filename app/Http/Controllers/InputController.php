@@ -44,7 +44,7 @@ class InputController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'attach.*' => 'required|file|max:5000|mimes:pdf,docx,doc',
+            'attach.*' => 'required|file|max:6000|mimes:pdf,docx,doc',
         ]);
 
         request()->validate([
@@ -77,7 +77,7 @@ class InputController extends Controller
             'latitude.*'       => 'Isi koordinat latitude',
             'elevasi.*'        => 'Isi elevasi',
             'attach'           => 'Upload file singkapan',
-            'attach.*'         => 'Upload hanya file doc, docx, and odt. Maksimum ukuran dokumen 2MB',
+            'attach.*'         => 'Upload hanya file doc, docx, and odt. Maksimum ukuran dokumen 5MB',
         ]
         );
 

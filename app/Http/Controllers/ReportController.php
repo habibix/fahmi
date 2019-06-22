@@ -93,7 +93,6 @@ class ReportController extends Controller
         $data = Input::findOrFail($id);
 
         $id_kec = explode('-', $data->kabupaten);
-        
         $prov = $wilayah->wilayah($data->provinsi);
         $kab = $wilayah->wilayah($data->kabupaten);
         $kec = $wilayah->wilayah($id_kec);

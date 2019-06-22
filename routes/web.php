@@ -53,3 +53,8 @@ Route::get('data/{id}', 'ReportController@reportView');
 
 Route::post('select-kab', 'InputController@selectKab')->name('select-kab');
 Route::post('select-kec', 'InputController@selectKec')->name('select-kec');
+
+Auth::routes();
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home/view/{id}', 'HomeController@single')->name('single');
+Route::get('/home/delete/{id}', 'HomeController@delete');

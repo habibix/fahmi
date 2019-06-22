@@ -1,49 +1,8 @@
-@extends('layout')
+@extends('layouts.app')
 
-@section('head')
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.googlemap/1.5.1/jquery.googlemap.min.js"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyDZGCoJLniH-3xUOaBlX2aKrkG6KNeRecM"></script>
-<style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 600px;
-      }
-      
-</style>
-<script>
-  $(document).ready(function() {
-
-    $("#map").height(500);
-
-    var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 14,
-
-      center: {
-        lat: <?php echo ($data->north+$data->south)/2 ?>,
-        lng: <?php echo ($data->east+$data->west)/2 ?>
-        },
-      mapTypeId: 'terrain'
-    });
-
-    var rectangle = new google.maps.Rectangle({
-      strokeColor: '#FF0000',
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      fillColor: '#FF0000',
-      fillOpacity: 0.35,
-      map: map,
-      bounds: {
-        north: <?php echo $data->north ?>,
-        south: <?php echo $data->south ?>,
-        east: <?php echo $data->east ?>,
-        west: <?php echo $data->west ?>
-      }
-    });
-});
-</script>
- 
+@section('header')
+    <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    
 @endsection
 
 @section('content')
@@ -99,19 +58,18 @@
                         <table id="club-table" class="table table-striped">
                             <thead>
                             <tr>
-                                <th width="30">ID</th>
-                                <th>NO</th>
+                                <th width="30">NO</th>
                                 <th>KODE SINGKAPAN</th>
                                 <th>NAMA BATUAN</th>
                                 <th>JENIS BATUAN</th>
                                 <th>LONGITUDE</th>
                                 <th>LATITUDE</th>
                                 <th>ELEVASI</th>
-                                <th></th>
+                                <th>ATTACHMENT</th>
                             </tr>
                             </thead>
                             <tbody>
-                                @foreach ($singkapan as $sing)
+                                @foreach ($data->singkapan as $sing)
                                 <tr>
                                     <td>1</td>
                                     <td>{{ $sing->singkapan_kode }}</td>
@@ -121,10 +79,6 @@
                                     <td>{{ $sing->singkapan_lat }}</td>
                                     <td>{{ $sing->singkapan_elevasi }}</td>
                                     <td><a href="/uploads/{{ $sing->singkapan_attach }}">Download {{ $sing->singkapan_attach }}</a></td>
-                                    
-                                </tr>
-                                <tr>
-                                  <td width="100%" colspan="8"><div class="map-2">MAP</div></td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -142,22 +96,12 @@
 </div> <!-- container -->
 @endsection
 
-@section('scripts')
+@section('footer')
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
 <script type="text/javascript">
-// STATIC-PARENT              on  EVENT    DYNAMIC-CHILD
-$(document).ready(function() {
-
-    $("#map").height(500);
-
-    $(".map-2").height(500);
-    $(".map-2").googleMap();
-      $(".map-2").addMarker({
-        coords: [22, 32], // GPS coords
-        title : 'TITLE',
-        label : 'Label',
-        type : 'TERRAIN'
-      });
-});
+    $(document).ready( function () {
+        $('#myTable').DataTable();
+    } );
 </script>
 @endsection

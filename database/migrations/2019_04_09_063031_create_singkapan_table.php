@@ -15,7 +15,7 @@ class CreateSingkapanTable extends Migration
     {
         Schema::create('singkapan', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('input_id');
+            $table->unsignedInteger('input_id')->references('id')->on('input')->onDelete('cascade');
             $table->string('singkapan_kode');
             $table->string('singkapan_nama_batuan');
             $table->string('singkapan_jenis_batuan');
