@@ -9,6 +9,13 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+            <div class="form-group text-right">
+                <a href="{{ route('export') }}" class="btn btn-primary">EXPORT Data</a>
+            </div>
+                
+        </div>
+        <div class="col-md-12">
+            
             <div class="panel panel-default">
                 <div class="panel-heading">Data Input Mahasiswa</div>
 

@@ -182,6 +182,7 @@ return [
          * CUSTOM PROVIDER
          */
         Maatwebsite\Excel\ExcelServiceProvider::class,
+
     ],
 
     /*

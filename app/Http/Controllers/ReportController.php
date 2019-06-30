@@ -96,8 +96,12 @@ class ReportController extends Controller
         $prov = $wilayah->wilayah($data->provinsi);
         $kab = $wilayah->wilayah($data->kabupaten);
         $kec = $wilayah->wilayah($id_kec);
+
+        //return $data;
+
         return view('report-view')
             ->with('singkapan', $singkapan)
+            ->with('singkapan_arr', json_encode($singkapan))
             ->with('data', $data)
             ->with('kab', $kab)
             ->with('kec', $kec)

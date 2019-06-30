@@ -1,48 +1,62 @@
-@extends('layout')
+@extends('layouts.app')
 
-@section('head')
+@section('header')
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.googlemap/1.5.1/jquery.googlemap.min.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyDZGCoJLniH-3xUOaBlX2aKrkG6KNeRecM"></script>
-<style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 600px;
-      }
-      
-</style>
+
 <script>
-  $(document).ready(function() {
+        var map,
+            searchArea,
+            searchAreaMarker,
+            searchAreaRadius = 1000, // metres
+            north = {!! $data->north !!},
+            south = {!! $data->south !!},
+            east =  {!! $data->east !!},
+            west =  {!! $data->west !!};
 
-    $("#map").height(500);
+        function initMap() {
 
-    var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 14,
+            var clat = (north + south) / 2;
+            var clng = (east + west) / 2;
 
-      center: {
-        lat: <?php echo ($data->north+$data->south)/2 ?>,
-        lng: <?php echo ($data->east+$data->west)/2 ?>
-        },
-      mapTypeId: 'terrain'
-    });
+            var startLatLng = new google.maps.LatLng(clat, clng);
 
-    var rectangle = new google.maps.Rectangle({
-      strokeColor: '#FF0000',
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      fillColor: '#FF0000',
-      fillOpacity: 0.35,
-      map: map,
-      bounds: {
-        north: <?php echo $data->north ?>,
-        south: <?php echo $data->south ?>,
-        east: <?php echo $data->east ?>,
-        west: <?php echo $data->west ?>
-      }
-    });
-});
-</script>
+            var singkapan = {!! $singkapan_arr !!};
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: startLatLng,
+                zoom: 14
+            });
+
+            searchArea = new google.maps.Rectangle({
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: '#FF0000',
+                fillOpacity: 0.35,
+                center: startLatLng,
+                map: map,
+                bounds: {
+                    north: north,
+                    south: south,
+                    east: east,
+                    west: west
+                }
+            });
+
+            for( var value in singkapan ){
+                console.log("LNG " + singkapan[value].singkapan_lng);
+                singkapan[value].marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(singkapan[value].singkapan_lat, singkapan[value].singkapan_lng),
+                    map: map,
+                    title: singkapan[value].singkapan_nama_batuan
+                });
+                console.log("lat "+singkapan[value].singkapan_lat)
+                console.log("lng "+singkapan[value].singkapan_lng)
+            }
+        }
+    </script>
  
 @endsection
 
@@ -82,32 +96,32 @@
                             <label>KABUPATEN : </label>
                             <label>{{ $data->kabupaten }} - {{ $kab->nama }}</label>
                         </div>
+
                         <div class="form-group">
                             <label>KECAMATAN : </label>
                             <label>{{ $data->kecamatan }} - {{ $kec->nama }}</label>
                         </div>
-                        <div class="form-group">
-                            <div id="map"></div>
-                        </div>
 
                         <div class="form-group">
-                            <div class="panel-heading">
-                                <h5>Data Singkapan</h5>
-                            </div>
+                            <label>KOORDINAT : </label>
                         </div>
+
+                        <p><label>Lintang / Latitude / North : {{ $data->north }}</label></p>
+                        <p><label>Bujur / Longitude / East : {{ $data->east }}</label></p>
+                        <p><label>Lintang / Latitude / South : {{ $data->south }}</label></p>
+                        <p><label>Bujur / Longitude / West : {{ $data->west }}</label></p>
                         
                         <table id="club-table" class="table table-striped">
                             <thead>
                             <tr>
-                                <th width="30">ID</th>
-                                <th>NO</th>
+                                <th width="30">NO</th>
                                 <th>KODE SINGKAPAN</th>
                                 <th>NAMA BATUAN</th>
                                 <th>JENIS BATUAN</th>
                                 <th>LONGITUDE</th>
                                 <th>LATITUDE</th>
                                 <th>ELEVASI</th>
-                                <th></th>
+                                <th>ATTACHMENT</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -123,13 +137,14 @@
                                     <td><a href="/uploads/{{ $sing->singkapan_attach }}">Download {{ $sing->singkapan_attach }}</a></td>
                                     
                                 </tr>
-                                <tr>
-                                  <td width="100%" colspan="8"><div class="map-2">MAP</div></td>
-                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
 
+
+                        <div class="form-group">
+                            <div id="map">maps</div>
+                        </div>
                         
                     </div>
                 </div>
@@ -142,22 +157,16 @@
 </div> <!-- container -->
 @endsection
 
-@section('scripts')
+@section('footer')
 
 <script type="text/javascript">
-// STATIC-PARENT              on  EVENT    DYNAMIC-CHILD
+
 $(document).ready(function() {
 
-    $("#map").height(500);
+    $("#map").height(600);
+    initMap();
 
-    $(".map-2").height(500);
-    $(".map-2").googleMap();
-      $(".map-2").addMarker({
-        coords: [22, 32], // GPS coords
-        title : 'TITLE',
-        label : 'Label',
-        type : 'TERRAIN'
-      });
 });
 </script>
+
 @endsection

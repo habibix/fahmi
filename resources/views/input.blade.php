@@ -1,21 +1,9 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.app')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Fonts -->
+@section('header')
+<!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.googlemap/1.5.1/jquery.googlemap.min.js"></script>
@@ -69,11 +57,11 @@
             float: none !important;
         }
         
-        #map {
+        /*#map {
             height: 700px;
             width: 100%;
             background: #eee;
-        }
+        }*/
         
         .map-button {
             margin-top: 10px;
@@ -93,7 +81,7 @@
         }
     </style>
     <script type="text/javascript">
-        $("#map").width(100).height(200);
+        
 
         var map,
             searchArea,
@@ -104,22 +92,10 @@
             east = -116.234,
             west = -116.251;
 
-        function initMap2(){
-          var lng = $('input[name^=longitude]').map(function(idx, elem) {
-            return $(elem).val();
-          }).get();
-
-          var lat = $('input[name^=latitude]').map(function(idx, elem) {
-            return $(elem).val();
-          }).get();
-
-          console.log(lng);
-          console.log(lat);
-          console.log(lat[0]+", "+lng[0]);
-          event.preventDefault();
-        }
-
         function initMap() {
+
+            $("#map").css('width', '100%').css('height', '700');
+
             var n = Number(document.getElementsByName('north')[0].value);
             var s = Number(document.getElementsByName('south')[0].value);
             var e = Number(document.getElementsByName('east')[0].value);
@@ -171,14 +147,6 @@
                 }
             });
 
-            /*var randomMarkers = [{
-                title: 'Marker 1',
-                latLng: new google.maps.LatLng(33.685, -116.234)
-            }, {
-                title: 'Marker 2',
-                latLng: new google.maps.LatLng(33.685, -116.251)
-            }, ];*/
-
             for (var i = 0; i < lng.length; i++) {
               if(lng[i] == "" || lat[i] == "" || title[i] == ""){
                 alert("Koordinat Singkapan dan nama batuan tidak boleh kosong");
@@ -192,53 +160,6 @@
 
                 console.log("hai");
             }
-
-            /*searchAreaMarker = new google.maps.Marker({
-                position: startLatLng,
-                map: map,
-                draggable: true,
-                animation: google.maps.Animation.DROP,
-                title: 'searchAreaMarker'
-            });*/
-
-            /*var randomMarkers = [{
-                title: 'Marker 1',
-                latLng: new google.maps.LatLng(33.685, -116.234)
-            }, {
-                title: 'Marker 2',
-                latLng: new google.maps.LatLng(33.685, -116.251)
-            }, ];
-
-            for (var i = 0; i < randomMarkers.length; i++) {
-                randomMarkers[i].marker = new google.maps.Marker({
-                    position: randomMarkers[i].latLng,
-                    map: map,
-                    title: randomMarkers[i].title
-                });
-            }*/
-
-            /*google.maps.event.addListener(searchAreaMarker, 'dragend', function(e) {
-                startLatLng = e.latLng;
-
-                searchArea.setOptions({
-                    center: startLatLng
-                });
-
-                map.panTo(searchAreaMarker.getPosition());
-
-                // find markers in area
-                for (var i = 0; i < randomMarkers.length; i++) {
-                    console.log('Marker: ' + randomMarkers[i].marker.title + ', position: ' + randomMarkers[i].marker.getPosition());
-
-                    // ---------- Here comes the error: 
-                    // TypeError: e is undefined
-                    if (google.maps.geometry.spherical.computeDistanceBetween(randomMarkers[i].marker.getPosition(), searchArea.getCenter()) <= searchArea.getRadius()) {
-                        console.log('=> is in searchArea');
-                    } else {
-                        console.log('=> is NOT in searchArea');
-                    }
-                }
-            });*/
         }
 
         //google.maps.event.addDomListener(window, 'load', initMap);
@@ -305,15 +226,19 @@
 
         }
     </script>
+@endsection
 
-</head>
-
-<body>
+@section('content')
     <div class="container">
         <div class="col-md-8 center-block">
             <div class="card">
-                <div class="card-header">INPUT DATA</div>
-                @if ($errors->any())
+                <div class="card-header"></div>
+           
+                @if (session('status'))
+                <div class="alert alert-success">
+                    {{ session('status') }}
+                </div>
+                @endif @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
                         @foreach ($errors->all() as $error)
@@ -321,9 +246,8 @@
                         @endforeach
                     </ul>
                 </div>
-                @endif @if (Session::has('success'))
-                <div class="text-success">{{ Session::get('success') }}</div>
                 @endif
+
                 <div class="card-body">
 
                     <form method="POST" action="{{ route('input.store') }}" enctype="multipart/form-data">
@@ -411,7 +335,7 @@
                             <div id="isi-singkapan-1">
                                 <div id="input-grup" class="form-group row">
                                     <div class="col-xs-4">
-                                        <input name="kode_singkapan[]" type="text" class="form-control" placeholder="Kode Singkapan">
+                                        <input name="kode_singkapan[]" type="text" class="form-control" placeholder="Kode Singkapan" value="{{ old('kode_singkapan') }}">
                                     </div>
                                     <div class="col-xs-4">
                                         <input name="nama_batuan[]" type="text" class="form-control" placeholder="Nama Batuan">
@@ -471,28 +395,9 @@
             </div>
         </div>
     </div>
+@endsection
 
-    <script>
-        /*$(document).ready(function() {
-            initMap();
-          });*/
-    </script>
-    <!-- <script>
-      function mapSingkapan() {
-        var myLatLng = {lat: -25.363, lng: 131.044};
-
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
-          center: myLatLng
-        });
-
-        var marker = new google.maps.Marker({
-          position: myLatLng,
-          map: map,
-          label : 'mapp'
-        });
-      }
-    </script> -->
+@section('footer')
     <script>
         // STATIC-PARENT              on  EVENT    DYNAMIC-CHILD
         $('#singkapan').on('click', '#viewMap', function() {
@@ -554,6 +459,4 @@
             });
         });
     </script>
-</body>
-
-</html>
+@endsection
